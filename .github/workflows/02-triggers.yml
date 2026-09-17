@@ -1,0 +1,23 @@
+name: 02 Triggers
+on:
+  push:
+    branches: [main]
+  pull request:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: "Environment"
+        type: choice
+        options: [dev, uat]
+        default: dev
+
+  schedule:
+    -cron: "0 9 * * 1"
+jobs:
+  show-why:
+   runs-on: ubuntu-latest
+   steps:
+    - name: why did I run?
+      run: |
+       echo "Event that triggered me: ${{github.event_name}}"
+       echo "chosen environemtn (only set on manual run): ${{github.event.inputs.target}}"
