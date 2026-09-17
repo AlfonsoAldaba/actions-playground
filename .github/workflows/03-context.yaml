@@ -1,0 +1,20 @@
+name: 03 Context
+on: [workflow_dispatch]
+env:
+  GREETING: "hello from a workflow-level env var"
+jobs:
+  demo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Read the context
+        run: |
+          echo "Repo: ${{github.repository}}"
+          echo "Actor: ${{github.actor}}"
+          echo "Branch: ${{github.ref_name}}"
+          echo "SHA: ${{github.sha}}"
+          echo "Env var: $GREETING"
+      - name: produce a value
+        id: make
+        run: echo "version=1.2.3 >> $GITHUB_OUTPUT"
+      - name: consume it in a later step
+        run: echo "the preivous step decided version ${{steps.make.outputs.version}}"
